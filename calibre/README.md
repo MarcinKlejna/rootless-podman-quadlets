@@ -1,4 +1,4 @@
-# Calibre‑GUI + Calibre‑Web
+# [Calibre‑GUI + Calibre‑Web](https://github.com/linuxserver/docker-calibre)
 
 Two‑container Calibre stack:  
 - **Calibre GUI** web‑based desktop for library management.  
