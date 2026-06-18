@@ -1,4 +1,4 @@
-# Plex Media Server + Tautulli
+# [Plex Media Server](https://github.com/plexinc) + [Tautulli](https://github.com/tautulli/tautulli)
 
 Plex with hardware transcoding and the Tautulli monitoring companion, both running rootless under Podman.  
 Tautulli shares Plex’s network namespace, so it can access Plex at `localhost` without separate port publishing.
