@@ -2,7 +2,6 @@
 Description=PlaneFence ADSB Analytics
 After=podman-user-wait-network-online.service ultrafeeder.service
 Wants=podman-user-wait-network-online.service
-BindsTo=ultrafeeder.service
 
 [Container]
 HostName=planefence
