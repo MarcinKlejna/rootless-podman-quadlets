@@ -5,7 +5,6 @@ Wants=podman-user-wait-network-online.service adsb-network.service
 # Uncomment the following lines if you use Airspy or dump978:
 # After=airspy.service dump978.service
 # Wants=airspy.service dump978.service
-# BindsTo=airspy.service dump978.service
 
 [Container]
 HostName=ultrafeeder
