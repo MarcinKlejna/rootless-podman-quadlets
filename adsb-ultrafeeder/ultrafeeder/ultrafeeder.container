@@ -14,9 +14,9 @@ AutoUpdate=registry
 Network=adsb
 
 # Ports
-PublishPort=8081:8081   # Tar1090 web interface
-PublishPort=30005:30005 # Beast output
-PublishPort=30003:30003 # BaseStation output
+PublishPort=8081:8081
+PublishPort=30005:30005
+PublishPort=30003:30003
 
 # Environment – loaded from file for secrets
 EnvironmentFile=%h/.config/containers/systemd/ultrafeeder.env
