@@ -45,10 +45,11 @@ Volume=%h/stirlingpdf/pipeline:/pipeline
 #Mount=type=tmpfs,destination=/var/log,tmpfs-size=64M,tmpfs-mode=1777
 
 # ---------- Resource limits ----------
-#PodmanArgs=--memory=8G --memory-reservation=2G
+#Memory=8G
 
 [Service]
 Restart=on-failure
+#MemoryLow=2G
 
 [Install]
 WantedBy=default.target
