@@ -20,7 +20,7 @@ Environment=TZ=America/New_York
 #if using ReadOnly will need to uncomment Mount=
 
 [Service]
-Restart=unless-stopped
+Restart=on-failure
 
 [Install]
 WantedBy=default.target
