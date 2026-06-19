@@ -8,6 +8,7 @@ HostName=adsbhub
 ContainerName=adsbhub
 Image=ghcr.io/sdr-enthusiasts/docker-adsbhub:latest
 Network=adsb
+AutoUpdate=registry
 
 Environment=TZ=America/New_York
 Environment=SBSHOST=ultrafeeder
