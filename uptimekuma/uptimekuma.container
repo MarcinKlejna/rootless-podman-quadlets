@@ -30,7 +30,7 @@ Volume=%h/uptime-kuma/data:/app/data
 #Mount=type=tmpfs,destination=/var/log,tmpfs-size=32M,tmpfs-mode=1777
 
 # ---------- Resource limits ----------
-#PodmanArgs=--memory=512m
+#Memory=512M
 
 [Service]
 Restart=on-failure
