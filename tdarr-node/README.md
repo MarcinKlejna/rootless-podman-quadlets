@@ -16,7 +16,3 @@ If using NVIDIA, you’ll need the appropriate CDI device.
 ## Volumes
 - Media paths: `/media/Videos/…` (adjust to your mount points).
 - Temporary transcode output: `/temp` must exist on the host and be writable.
-
-## Hardening
-Uncomment `NoNewPrivileges` and the four `Tmpfs=` lines together.  
-The node uses tmpfs for caching and temporary configuration files.
