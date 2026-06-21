@@ -8,37 +8,21 @@ ContainerName=tdarr-node
 HostName=tdarr-node
 Image=ghcr.io/haveagitgat/tdarr_node:latest
 AutoUpdate=registry
-
-# Ports – node communication
-# Using IPv6 binding [::] ensures dual‑stack support; adjust if needed.
 PublishPort=[::]:8267:8267
-
-# GPU device for Intel QuickSync / VAAPI
 AddDevice=/dev/dri:/dev/dri:rw
-
-# Environment
 Environment=TZ=America/New_York
 Environment=nodeName=your-node-name
 Environment=nodeID=your-node-name-node
-# How the node reaches the server (change to your server’s URL)
 Environment=serverURL=http://your-server:8266
-
-# Volumes
-Volume=%h/jellyfin/tdarr/node-logs:/app/logs
+Volume=%h/tdarr/node-logs:/app/logs
 Volume=/media/Videos/Movies:/media/movies:rw
 Volume=/media/Videos/tvshows:/media/tvshows:rw
-Volume=/media/Videos/abbysmovies:/media/abbysmovies:rw
-Volume=/media/Videos/othervideos:/media/othervideos:rw
 Volume=/temp:/temp
-
-# ---------- Hardening (uncomment to lock down the container) ----------
-#NoNewPrivileges=true
-
-# ---------- Temporary filesystems (required for caching and writable paths) ----------
-#Tmpfs=/app/unmappedNodeCache:size=1G,rw,mode=1777
-#Tmpfs=/tmp:size=1G,rw,mode=1777
-#Tmpfs=/run:size=64M,rw,mode=1777
-#Tmpfs=/app/configs:size=32M,rw,mode=1777
+NoNewPrivileges=true
+Tmpfs=/app/unmappedNodeCache:size=1G,rw,mode=1777
+Tmpfs=/tmp:size=1G,rw,mode=1777
+Tmpfs=/run:size=64M,rw,mode=1777
+Tmpfs=/app/configs:size=32M,rw,mode=1777
 
 [Service]
 Restart=on-failure
