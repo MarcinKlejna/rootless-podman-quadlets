@@ -1,0 +1,79 @@
+# Pi-hole Quadlet container file for rootless Podman
+# More info: https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+#
+# SETUP
+# -----
+# 1. Place this file at: ~/.config/containers/systemd/pihole.container
+# 2. Place pihole.env at:  ~/pihole/pihole.env  (edit the password inside)
+# 3. Create the data dir:  mkdir -p ~/pihole/etc-pihole
+# 4. Reload and start:
+#      /usr/libexec/podman/quadlet --dryrun   # verify no errors
+#      systemctl --user daemon-reload
+#      systemctl --user enable --now pihole
+#
+# PORT 53 NOTE
+# ------------
+# Rootless Podman cannot bind privileged ports (<1024) by default.
+# ExecStartPre below lowers the unprivileged port floor to 53 for this session.
+# To make it permanent across reboots instead, run once as root:
+#   echo 'net.ipv4.ip_unprivileged_port_start=53' > /etc/sysctl.d/99-unprivileged-port.conf
+#   sysctl --system
+
+[Unit]
+Description=Pi-hole DNS ad-blocker
+Wants=podman-user-wait-network-online.service
+After=podman-user-wait-network-online.service
+
+[Container]
+ContainerName=pihole
+Image=docker.io/pihole/pihole:latest
+
+# --- Networking ---
+# DNS
+PublishPort=53:53/tcp
+PublishPort=53:53/udp
+# HTTP web interface
+PublishPort=80:80/tcp
+# HTTPS web interface (FTL generates a self-signed cert)
+PublishPort=443:443/tcp
+# Uncomment if using Pi-hole as your DHCP server (also add cap NET_ADMIN below)
+#PublishPort=67:67/udp
+# Uncomment if using Pi-hole as your NTP server (also add cap SYS_TIME below)
+#PublishPort=123:123/udp
+
+# --- Environment ---
+# All secrets and tunables live in pihole.env — edit that file, not this one.
+EnvironmentFile=%h/.config/containers/systemd/pihole.env
+
+# --- Volumes ---
+# Persists Pi-hole databases, gravity, and FTL config across upgrades.
+Volume=%h/pihole/etc-pihole:/etc/pihole:Z
+# Uncomment if you have custom dnsmasq config files to persist.
+# Needed for v5→v6 migration (set FTLCONF_misc_etc_dnsmasq_d=true in pihole.env too).
+# Can be removed after the first successful v6 start.
+#Volume=%h/pihole/etc-dnsmasq.d:/etc/dnsmasq.d:Z
+
+# --- Capabilities ---
+# NET_ADMIN  — required for DHCP; also used by FTL for low-level DNS socket ops
+# NET_RAW    — needed for Pi-hole's ICMP ping-based host detection
+# SYS_TIME   — required only if using Pi-hole as NTP client (to set host clock)
+# SYS_NICE   — optional; gives FTL elevated scheduling priority
+AddCapability=NET_ADMIN
+AddCapability=NET_RAW
+AddCapability=SYS_TIME
+AddCapability=SYS_NICE
+
+# --- Hardening (safe baseline compatible with Pi-hole) ---
+NoNewPrivileges=false
+# NoNewPrivileges must stay false: FTL drops its own privileges internally at startup.
+
+[Service]
+# Lower the unprivileged port floor so rootless Podman can bind port 53.
+# Requires sudo without a password for sysctl — add to /etc/sudoers.d/pihole-sysctl:
+#   <your-username> ALL=(root) NOPASSWD: /usr/sbin/sysctl net.ipv4.ip_unprivileged_port_start=53
+ExecStartPre=/usr/bin/sudo /usr/sbin/sysctl net.ipv4.ip_unprivileged_port_start=53
+Restart=on-failure
+
+
+[Install]
+WantedBy=default.target
