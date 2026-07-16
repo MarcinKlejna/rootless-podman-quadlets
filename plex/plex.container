@@ -7,6 +7,7 @@ PropagatesStopTo=tautulli.service
 [Container]
 ContainerName=plex
 Image=docker.io/plexinc/pms-docker:latest
+Network=plex.network
 AutoUpdate=registry
 HostName=your-hostname
 Environment=PLEX_UID=1000
@@ -14,7 +15,6 @@ Environment=PLEX_GID=1000
 Environment=TZ=America/New_York
 Environment=VERSION=docker
 PublishPort=32400:32400
-PublishPort=8181:8181
 AddDevice=/dev/dri:/dev/dri:rw
 Volume=%h/plex/config:/config
 Volume=%h/Videos/tvshows:/data/tvshows:rw
