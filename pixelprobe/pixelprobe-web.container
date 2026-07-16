@@ -1,0 +1,39 @@
+[Unit]
+Description=PixelProbe web UI and API
+After=pixelprobe-database.service pixelprobe-redis.service
+Requires=pixelprobe-database.service pixelprobe-redis.service
+
+[Container]
+Image=docker.io/ttlequals0/pixelprobe:latest
+ContainerName=pixelprobe-web
+HostName=pixelprobe-web
+Network=pixel.network
+UserNS=keep-id:uid=1000,gid=1000
+User=1000
+Group=1000
+EnvironmentFile=%h/.config/containers/systemd/pixelprobe.env
+Environment=POSTGRES_HOST=pixelprobe-database
+Environment=POSTGRES_PORT=5432
+Environment=POSTGRES_DB=pixelprobe
+Environment=POSTGRES_USER=pixelprobe
+Environment=REDIS_HOST=pixelprobe-redis
+Environment=REDIS_PORT=6379
+Environment=CELERY_BROKER_URL=redis://pixelprobe-redis:6379/0
+Environment=CELERY_RESULT_BACKEND=redis://pixelprobe-redis:6379/0
+Environment=OUTPUT_ROTATION_ENABLED=true
+Environment=TZ=America/New_York
+AutoUpdate=registry
+Volume=%h/Videos:/media:ro
+PublishPort=5000:5000
+Environment="GUNICORN_BIND=[::]:5000"
+Tmpfs=/tmp:size=2G
+Environment=SCHEDULER_ENABLED=true
+HealthCmd=curl -f http://localhost:5000/health || exit 0
+HealthInterval=10s
+HealthRetries=3
+
+[Service]
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
