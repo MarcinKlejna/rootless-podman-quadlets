@@ -18,6 +18,8 @@ NoNewPrivileges=true
 Mount=type=tmpfs,destination=/tmp,tmpfs-size=512M,tmpfs-mode=1777
 Mount=type=tmpfs,destination=/run,tmpfs-size=16M,tmpfs-mode=1777
 Mount=type=tmpfs,destination=/var/cache/nginx,tmpfs-size=64M,tmpfs-mode=1777
+ReadOnly=true
+DropCapabilities=true
 
 [Service]
 Restart=on-failure
