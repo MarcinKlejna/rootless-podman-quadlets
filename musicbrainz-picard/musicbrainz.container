@@ -8,18 +8,25 @@ Image=docker.io/jlesage/musicbrainz-picard:latest
 ContainerName=musicbrainz
 HostName=musicbrainz
 PublishPort=5800:5800
+AddDevice=/dev/dri:/dev/dri:rw
 Environment=TZ=America/New_York
 Environment=KEEP_APP_RUNNING=1
 Volume=%h/picard:/config:rw
 Volume=%h/picard/staging:/storage:rw
+Volume=%h/Videos/music:/music:rw
 AutoUpdate=registry
 NoNewPrivileges=true
 Mount=type=tmpfs,destination=/tmp,tmpfs-size=512M,tmpfs-mode=1777
 Mount=type=tmpfs,destination=/run,tmpfs-size=16M,tmpfs-mode=1777
 Mount=type=tmpfs,destination=/var/cache/nginx,tmpfs-size=64M,tmpfs-mode=1777
+ReadOnly=yes
+Mount=type=tmpfs,destination=/var/log,tmpfs-size=32M,tmpfs-mode=1777
+Mount=type=tmpfs,destination=/home,tmpfs-size=32M,tmpfs-mode=1777
+Mount=type=tmpfs,destination=/dev/shm,tmpfs-size=128M,tmpfs-mode=1777
+Mount=type=tmpfs,destination=/var/cache/fontconfig,tmpfs-size=64M,tmpfs-mode=1777
 
 [Service]
 Restart=on-failure
 
 [Install]
-WantedBy=default.target
+WantedBy=default.target 
