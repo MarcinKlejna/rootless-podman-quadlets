@@ -11,6 +11,8 @@ AutoUpdate=registry
 PublishPort=8265:8265
 PublishPort=8266:8266
 AddDevice=/dev/dri:/dev/dri:rw
+Environment=PUID=1000
+Environment=PGID=1000
 Environment=TZ=America/New_York
 Environment=serverPort=8266
 Environment=internalNode=true
