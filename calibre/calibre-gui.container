@@ -17,7 +17,8 @@ EnvironmentFile=%h/.config/containers/systemd/calibre-gui.env
 Volume=%h/.config/calibre-gui:/config
 Volume=%h/calibre:/calibre-library
 AddDevice=/dev/dri:/dev/dri
-PodmanArgs=--group-add=render --group-add=video
+GroupAdd=render
+GroupAdd=video
 NoNewPrivileges=yes
 DropCapability=all
 AddCapability=CAP_SETUID
