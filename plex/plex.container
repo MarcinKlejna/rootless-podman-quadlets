@@ -12,6 +12,7 @@ AutoUpdate=registry
 HostName=your-hostname
 Environment=PLEX_UID=1000
 Environment=PLEX_GID=1000
+GroupAdd=keep-groups
 Environment=TZ=America/New_York
 Environment=VERSION=docker
 PublishPort=32400:32400
@@ -24,6 +25,7 @@ NoNewPrivileges=yes
 DropCapability=CAP_MKNOD
 DropCapability=CAP_NET_RAW
 DropCapability=CAP_AUDIT_WRITE
+HealthCmd=none
 ReadOnly=yes
 Mount=type=tmpfs,destination=/transcode,tmpfs-size=8G,tmpfs-mode=1777,rw
 Mount=type=tmpfs,destination=/tmp,tmpfs-size=2G,tmpfs-mode=1777,rw
