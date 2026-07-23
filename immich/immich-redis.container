@@ -4,21 +4,21 @@ After=podman-user-wait-network-online.service immich-network.service
 Wants=immich-network.service
 
 [Container]
+User=1000:1000
+UserNS=keep-id
 AutoUpdate=registry
 Network=immich.network
 ContainerName=immich-redis
 HostName=immich-redis
 Image=docker.io/valkey/valkey:9
 Environment=TZ=America/New_York
-Volume=immich_redis_data:/data
 ReadOnly=true
 NoNewPrivileges=yes
-DropCapability=all
-AddCapability=CAP_SETUID
-AddCapability=CAP_SETGID
 Mount=type=tmpfs,destination=/tmp,tmpfs-size=64M,tmpfs-mode=1777
 Mount=type=tmpfs,destination=/run,tmpfs-size=32M,tmpfs-mode=1777
 Mount=type=tmpfs,destination=/var/log,tmpfs-size=32M,tmpfs-mode=1777
+Volume=%h/immich-app/redis:/data
+DropCapability=all
 
 [Service]
 Restart=on-failure
